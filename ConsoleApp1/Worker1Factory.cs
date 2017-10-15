@@ -14,11 +14,11 @@ namespace ConsoleApp1
     internal sealed class Worker1Factory : ISimpleWorker
     {
         internal static readonly Worker1Factory Instance = new Worker1Factory();
+        static BlockChain OpenLedger = new BlockChain();
 
         public void Do()
-        {
-            Block[] bs = { new Block("genesis", new BlockData[] { new BlockData() { message = "asd" } }) };
-            Console.WriteLine(bs[0].Hash);
+        {            
+            OpenLedger.Add(new Block("genesis", new BlockData[] { new BlockData() { message = "asd" } }));
             Console.ReadKey();
             return;
             using (var container = BootStrap.Components())

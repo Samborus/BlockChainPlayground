@@ -69,7 +69,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BC\Block.cs" />
     <Compile Include="BC\BlockChain.cs" />
+    <Compile Include="BC\SHA256Helper.cs" />
     <Compile Include="DB\ContextDB.cs" />
     <Compile Include="DB\Model.cs" />
     <Compile Include="Disposing.cs" />

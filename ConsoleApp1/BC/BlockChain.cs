@@ -1,86 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ConsoleApp1.BC
 {
-    public sealed class Block
+    public sealed class BlockChain
     {
-        BlockData[] datas { get; set; }
-        string previousHash = String.Empty;
-        string hash = String.Empty;
+        private List<Block> blocks = new List<Block>();
 
-        public Block(string previousHash, BlockData[] data)
+        public void Add(Block candidateBlock)
         {
-            this.previousHash = previousHash;
-            this.datas = data;
-            hash = generateHash();
-        }   
-        
-        private string generateHash()
-        {
-            byte[] chain1 = null;
-            SHA256Managed sha = new SHA256Managed();
-            object obj = this.datas;
-            var bf = new BinaryFormatter();
-            using (var ms = new MemoryStream())
-            {
-                bf.Serialize(ms, obj);
-                chain1 = ms.ToArray();
-            }
-            byte[] chain2 = Encoding.UTF8.GetBytes(previousHash);
-
-            List<byte> toEncode = Encoding.Unicode.GetBytes(string.Join("", chain1)).ToList();
-            toEncode.AddRange(chain2);
-            using (var myStream = new System.IO.MemoryStream())
-            {
-                using (var sw = new System.IO.StreamWriter(myStream))
-                {
-                    sw.Write(Convert.ToBase64String(toEncode.ToArray()));
-                }
-                using (var readonlyStream = new MemoryStream(myStream.ToArray(), writable: false))
-                {
-                    chain1 = sha.ComputeHash(readonlyStream);
-                }
-            }
-            string hex = string.Empty;
-            foreach (byte x in chain1)
-            {
-                hex += String.Format("{0:x2}", x);
-            }
-            return hex;
+            this.blocks.Add(candidateBlock);
         }
 
-        public string GetPreviousHash
+        public string getLastHash
         {
             get
             {
-                return previousHash;
+                if (blocks.Count > 0)
+                    return blocks.Last().Hash;
+                return string.Empty;
             }
         }
 
-        public BlockData[] Datas
+        public IReadOnlyList<Block> getBlockChain
         {
             get
             {
-                return datas;
+                return blocks.AsReadOnly();
             }
         }
-
-        public string Hash { get => hash;  }
-    }
-
-    [Serializable]
-    public sealed class BlockData
-    {
-        public readonly DateTime Time =  DateTime.Now; // DateTime.MinValue; //
-        public string message { get; set; }
     }
 }
