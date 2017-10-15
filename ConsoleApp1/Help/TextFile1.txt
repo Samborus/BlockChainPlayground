@@ -1,0 +1,3 @@
+﻿Enable-Migrations
+Add-Migration AddUrl 
+Update-Database
