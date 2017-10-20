@@ -5,30 +5,31 @@ using System;
 
 namespace RecExporter.Code.Classes
 {
-    public class ServerLogger : Disposing, IServerLogger
+
+    public class ServerLogger :Disposing, IServerLogger
     {
-        private readonly string user = "server";
+        private string defaultUser = "server";
         private readonly Logger log = LogManager.GetCurrentClassLogger();
 
-        public void LogInfo(string logEvent, string message = "")
+        public void LogInfo(string logEvent, string message = "", string user = "")
         {
-            Log(LogLevel.Info, logEvent, message);
+            Log(LogLevel.Info, logEvent, message, user);
         }
 
-        public void LogWarning(string logEvent, string message = "")
+        public void LogWarning(string logEvent, string message = "", string user = "")
         {
-            Log(LogLevel.Warn, logEvent, message);
+            Log(LogLevel.Warn, logEvent, message, user);
         }
 
-        public void LogError(string logEvent, string message = "")
+        public void LogError(string logEvent, string message = "", string user = "")
         {
-            Log(LogLevel.Error, logEvent, message);
+            Log(LogLevel.Error, logEvent, message, user);
         }
 
-        private void Log(LogLevel level, string logEvent, string message)
+        private void Log(LogLevel level, string logEvent, string message, string user = "")
         {
             LogEventInfo theEvent = new LogEventInfo(level, logEvent, message);
-            theEvent.Properties["userId"] = user;
+            theEvent.Properties["userId"] = string.IsNullOrEmpty(user) ? defaultUser : user;
             log.Log(theEvent);
         }
 
@@ -36,5 +37,9 @@ namespace RecExporter.Code.Classes
         {
             base.DisposingMethod();
         }
+    }
+
+    public class cos
+    {
     }
 }
