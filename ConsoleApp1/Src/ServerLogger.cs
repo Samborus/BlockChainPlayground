@@ -1,11 +1,14 @@
-﻿using NLog;
+﻿using ConsoleApp1;
+using NLog;
 using RecExporter.Code.Interfaces;
+using System;
 
 namespace RecExporter.Code.Classes
 {
-    public class ServerLogger : IServerLogger
+    public class ServerLogger : Disposing, IServerLogger
     {
-        private static readonly string user = "server";
+        private readonly string user = "server";
+        private readonly Logger log = LogManager.GetCurrentClassLogger();
 
         public void LogInfo(string logEvent, string message = "")
         {
@@ -24,10 +27,14 @@ namespace RecExporter.Code.Classes
 
         private void Log(LogLevel level, string logEvent, string message)
         {
-            Logger log = LogManager.GetCurrentClassLogger();
             LogEventInfo theEvent = new LogEventInfo(level, logEvent, message);
             theEvent.Properties["userId"] = user;
             log.Log(theEvent);
+        }
+
+        public override void DisposingMethod()
+        {
+            base.DisposingMethod();
         }
     }
 }

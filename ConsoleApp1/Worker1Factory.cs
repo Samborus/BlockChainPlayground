@@ -25,7 +25,7 @@ namespace ConsoleApp1
             using (var scope = container.BeginLifetimeScope())
             {
                 //bindowanie
-                ISimpleWorker worker = container.Resolve<ISimpleWorker>();
+                ISimpleWorker worker = scope.Resolve<ISimpleWorker>();
                 //container.Resolve<IServerLogger>();
                 // robienie tasków
                 Task task1 = new Task(() => worker.Do());

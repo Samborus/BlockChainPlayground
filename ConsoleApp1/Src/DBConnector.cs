@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using RecExporter.Code.Interfaces;
 
-namespace ConsoleApp1.Src
+namespace ConsoleApp1.Src   
 {
     public sealed class DBConnector : Disposing, ISimpleWorker
     {
