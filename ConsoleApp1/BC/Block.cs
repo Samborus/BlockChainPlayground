@@ -16,10 +16,11 @@ namespace ConsoleApp1.BC
         BlockData[] datas { get; set; }
         string previousHash = String.Empty;
         string hash = String.Empty;
+        UInt64 nonce = 0;
 
-        public Block(string previousHash, BlockData[] data)
+        public Block(BlockData[] data)
         {
-            this.previousHash = previousHash;
+            //this.previousHash = previousHash;
             this.datas = data;
             hash = generateHash();
         }   
@@ -35,9 +36,9 @@ namespace ConsoleApp1.BC
                 bf.Serialize(ms, obj);
                 chain1 = ms.ToArray();
             }
-            byte[] chain2 = Encoding.UTF8.GetBytes(previousHash);
-
             List<byte> toEncode = Encoding.Unicode.GetBytes(string.Join("", chain1)).ToList();
+
+            byte[] chain2 = Encoding.UTF8.GetBytes(previousHash);            
             toEncode.AddRange(chain2);
             using (var myStream = new System.IO.MemoryStream())
             {

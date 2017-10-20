@@ -13,8 +13,8 @@ namespace RecExporter.Code
         protected override void Load(ContainerBuilder builder)
         {
             base.Load(builder);
-            builder.RegisterType<DBConnector>().As<ISimpleWorker>();
-            builder.RegisterType<ServerLogger>().As<IServerLogger>();
+            builder.RegisterType<DBConnector>().As<ISimpleWorker>().InstancePerDependency();
+            builder.RegisterType<ServerLogger>().As<IServerLogger>().InstancePerLifetimeScope();
         }
     }
 }

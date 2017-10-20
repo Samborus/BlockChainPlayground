@@ -18,10 +18,11 @@ namespace ConsoleApp1
 
         public void Do()
         {            
-            OpenLedger.Add(new Block("genesis", new BlockData[] { new BlockData() { message = "asd" } }));
-            Console.ReadKey();
-            return;
-            using (var container = BootStrap.Components())
+            //OpenLedger.Add(new Block("genesis", new BlockData[] { new BlockData() { message = "asd" } }));
+            //Console.ReadKey();
+            //return;
+            var container = BootStrap.Components();
+            using (var scope = container.BeginLifetimeScope())
             {
                 //bindowanie
                 ISimpleWorker worker = container.Resolve<ISimpleWorker>();

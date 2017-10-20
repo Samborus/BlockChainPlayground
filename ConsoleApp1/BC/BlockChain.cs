@@ -10,9 +10,16 @@ namespace ConsoleApp1.BC
     {
         private List<Block> blocks = new List<Block>();
 
-        public void Add(Block candidateBlock)
+        /// <summary>
+        /// Add block usng chain rules
+        /// </summary>
+        /// <param name="candidateBlock"></param>
+        /// <returns>Computed hash</returns>
+        public string Add(Block candidateBlock)
         {
             this.blocks.Add(candidateBlock);
+
+            return "";
         }
 
         public string getLastHash
