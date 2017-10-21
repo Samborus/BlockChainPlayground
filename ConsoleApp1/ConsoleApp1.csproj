@@ -90,12 +90,10 @@
     <Compile Include="Points.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Src\AppSession.cs" />
     <Compile Include="Src\BootStrap.cs" />
     <Compile Include="Src\DBConnector.cs" />
     <Compile Include="Src\IServerLogger.cs" />
     <Compile Include="Src\MainModule.cs" />
-    <Compile Include="Src\AppLogger.cs" />
     <Compile Include="Src\ServerLogger.cs" />
     <Compile Include="Worker1Factory.cs" />
   </ItemGroup>

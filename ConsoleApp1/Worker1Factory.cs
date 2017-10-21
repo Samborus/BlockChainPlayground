@@ -11,15 +11,20 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp1
 {
-    internal sealed class Worker1Factory : ISimpleWorker
+    public sealed class Worker1Factory : ISimpleWorker
     {
-        internal static readonly Worker1Factory Instance = new Worker1Factory();
+        public static readonly Worker1Factory Instance = new Worker1Factory();
         static BlockChain OpenLedger = new BlockChain();
 
         public void Do()
         {            
-            //OpenLedger.Add(new Block("genesis", new BlockData[] { new BlockData() { message = "asd" } }));
-            //Console.ReadKey();
+            for(int i = 0; i < 50; i++)
+            {
+                Block b1 = new Block(new BlockData[] { new BlockData() { message = "wiadomosc nr: " + i.ToString() } });
+                OpenLedger.Add(b1);
+            }
+            bool valed = OpenLedger.Validate();
+            Console.ReadKey();
             //return;
             var container = BootStrap.Components();
             using (var scope = container.BeginLifetimeScope())
@@ -29,8 +34,8 @@ namespace ConsoleApp1
                 //container.Resolve<IServerLogger>();
                 // robienie tasków
                 Task task1 = new Task(() => worker.Do());
-                task1.Start();
-                task1.Wait();
+                //task1.Start();
+                //task1.Wait();
             }
         }        
     }

@@ -6,7 +6,7 @@ using System;
 namespace RecExporter.Code.Classes
 {
 
-    public class ServerLogger :Disposing, IServerLogger
+    public class ServerLogger : Disposing, IServerLogger
     {
         private string defaultUser = "server";
         private readonly Logger log = LogManager.GetCurrentClassLogger();
@@ -37,9 +37,5 @@ namespace RecExporter.Code.Classes
         {
             base.DisposingMethod();
         }
-    }
-
-    public class cos
-    {
     }
 }

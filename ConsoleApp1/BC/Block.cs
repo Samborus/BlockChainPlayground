@@ -13,20 +13,44 @@ namespace ConsoleApp1.BC
 {
     public class Block
     {
+
+        public UInt64? ID { get; set; }
         BlockData[] datas { get; set; }
         string previousHash = String.Empty;
         string hash = String.Empty;
-        UInt64 nonce = 0;
+        public string nonce = "0";
+
+        public void SetNextID(UInt64? oldID)
+        {
+            if (oldID.HasValue)
+                ID = oldID + 1;
+            else
+                ID = 0;
+        }
 
         public Block(BlockData[] data)
         {
-            //this.previousHash = previousHash;
             this.datas = data;
-            hash = generateHash();
-        }   
-        
-        private string generateHash()
+        }
+
+        public void GenerateHashWithDiffuculty(float difficulty)
         {
+
+        }
+
+        public string ComputeHash()
+        {
+            return GenerateHash();
+        }
+
+        public void SetHash()
+        {
+            Hash = GenerateHash();
+        }
+
+            public string GenerateHash()
+        {
+            string result = string.Empty;
             byte[] chain1 = null;
             SHA256Managed sha = new SHA256Managed();
             object obj = this.datas;
@@ -38,7 +62,7 @@ namespace ConsoleApp1.BC
             }
             List<byte> toEncode = Encoding.Unicode.GetBytes(string.Join("", chain1)).ToList();
 
-            byte[] chain2 = Encoding.UTF8.GetBytes(previousHash);            
+            byte[] chain2 = Encoding.UTF8.GetBytes(PreviousHash);            
             toEncode.AddRange(chain2);
             using (var myStream = new System.IO.MemoryStream())
             {
@@ -56,15 +80,17 @@ namespace ConsoleApp1.BC
             {
                 hex += String.Format("{0:x2}", x);
             }
-            return hex;
+            result = hex;
+            return result;
         }
 
-        public string GetPreviousHash
+        public string PreviousHash
         {
             get
             {
                 return previousHash;
             }
+            set { previousHash = value; }
         }
 
         public BlockData[] Datas
@@ -75,7 +101,7 @@ namespace ConsoleApp1.BC
             }
         }
 
-        public string Hash { get => hash;  }
+        public string Hash { get => hash; private set { hash = value; } }
     }
 
     [Serializable]
