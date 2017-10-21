@@ -27,7 +27,7 @@ namespace ConsoleApp1.BC
             }
             candidateBlock.SetNextID(lastId);
             candidateBlock.PreviousHash = last;
-            candidateBlock.SetHash();
+            candidateBlock.GenerateHashWithDiffuculty(0); // SetHash();
             
             this.blocks.Add(candidateBlock);
 

@@ -18,7 +18,7 @@ namespace ConsoleApp1.BC
         BlockData[] datas { get; set; }
         string previousHash = String.Empty;
         string hash = String.Empty;
-        public string nonce = "0";
+        public UInt64 Nonce = 0;
 
         public void SetNextID(UInt64? oldID)
         {
@@ -33,9 +33,22 @@ namespace ConsoleApp1.BC
             this.datas = data;
         }
 
+        /// <summary>
+        /// na ilość zer
+        /// </summary>
+        /// <param name="difficulty"></param>
         public void GenerateHashWithDiffuculty(float difficulty)
         {
-
+            string temp = string.Empty;
+            do
+            {
+                temp = GenerateHash();
+                Nonce++;
+            }
+            while (!temp.Substring(0, 2).Equals("00"));
+            Nonce--;
+            Console.WriteLine($"Nonce: {Nonce}");
+            Hash = temp;
         }
 
         public string ComputeHash()
@@ -64,6 +77,8 @@ namespace ConsoleApp1.BC
 
             byte[] chain2 = Encoding.UTF8.GetBytes(PreviousHash);            
             toEncode.AddRange(chain2);
+            byte[] chain3 = Encoding.UTF8.GetBytes(Nonce.ToString());
+            toEncode.AddRange(chain3);
             using (var myStream = new System.IO.MemoryStream())
             {
                 using (var sw = new System.IO.StreamWriter(myStream))
