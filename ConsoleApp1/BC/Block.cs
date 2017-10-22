@@ -95,7 +95,7 @@ namespace ConsoleApp1.BC
             return bs;
         }
 
-        private string HashToString(byte[] lista)
+        internal string HashToString(byte[] lista)
         {
             string hex = string.Empty;
             foreach (byte x in lista)

@@ -46,8 +46,8 @@ namespace ConsoleApp1.BC
             {
                 
                 Block b = blocks.Where(o => o.ID.HasValue && o.ID.Value == i).FirstOrDefault();
-                Console.WriteLine($"Block: [{i}] PrevHash: {b.hashMerkleRoot}");
-                Console.WriteLine($"Block: [{i}] Hash    : {b.Hash}");
+                Console.WriteLine($"Block: [{i}] PrevHash: { b.HashToString(b.hashPrevBlock) }");
+                Console.WriteLine($"Block: [{i}] Hash    : {b.HashToString(b.Hash)}");
                 if (!prev.SequenceEqual(b.hashPrevBlock))
                     return false;
                 prev = b.Hash;
