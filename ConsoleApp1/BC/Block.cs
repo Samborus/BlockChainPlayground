@@ -70,7 +70,17 @@ namespace ConsoleApp1.BC
 
         public Block(BlockData[] data)
         {
-            this.transactions = data;
+            transactions = data;
+            int d = 0x1800eb30;
+            Bits = 0x0404cb;
+            var x = 0x1d00ffff;
+            Bits = 0x0404cb;
+            double d1 = 0x00ffff;// * 2 * Math.Pow(2, 8 * (0x1d - 3));
+            double d3 = 0x0404cb;// * 2 * Math.Pow(2, 8 * (0x1d - 3));
+            double dr = d1 / d3;
+            decimal dec = CalculateDifficulty();
+            decimal d5;
+            //Bits = Convert.ToUInt32();
         }
 
         /// <summary>
@@ -83,7 +93,7 @@ namespace ConsoleApp1.BC
             string temp = string.Empty;
             do
             {
-                string toHash = Version.ToString() + hashPrevBlock + HashToString(this.hashMerkleRoot) + Nonce;
+                string toHash = Version.ToString() + HashToString(hashPrevBlock) + HashToString(this.hashMerkleRoot) + Nonce;
                 bs = GenerateHash(toHash);
                 Nonce++;
             }
@@ -135,6 +145,15 @@ namespace ConsoleApp1.BC
                 hash.Append(theByte.ToString("x2"));
             }
             return crypto;
+        }
+        public long CalculateDifficulty()
+        {
+            //is 0x1b0404cb, the hexadecimal target is
+            //0x0404cb * 2**(8*(0x1b - 3)) = 0x00000000000404CB000000000000000000000000000000000000000000000000
+            uint p = Bits & 0x00FFFFFF;
+            uint e = (Bits & 0xFF000000) >> 24;
+            var dif = p * Math.Pow(2, (8 * (e - 3)));
+            return (long)dif;
         }
 
         public byte[] GenerateHash2(byte[] toHash1, byte[] toHash2)

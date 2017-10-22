@@ -29,6 +29,9 @@ namespace ConsoleApp1.BC
             else
                 candidateBlock.hashPrevBlock = lastBlock.Hash;
 
+            //candidateBlock.Bits = ;
+            long dif = candidateBlock.CalculateDifficulty();
+
             candidateBlock.SetNextID(lastId);
             candidateBlock.ComputeMerkleHash();
             candidateBlock.GenerateHashWithDiffuculty(); // SetHash();
@@ -75,5 +78,5 @@ namespace ConsoleApp1.BC
                 return blocks.AsReadOnly();
             }
         }
-    }
+}
 }

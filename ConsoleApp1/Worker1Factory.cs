@@ -20,6 +20,8 @@ namespace ConsoleApp1
 
         public void Do()
         {
+            double d = 0x0404cb * 2 * Math.Pow(8 * (0x1b - 3), 2);
+            
             for (int i = 0; i < 10; i++)
             {
                 Block b1 = new Block(new BlockData[] { new BlockData() { message = "wiadomosc1 nr: " + i.ToString() },
@@ -29,6 +31,7 @@ namespace ConsoleApp1
                 new BlockData() { message = "wiadomosc5 nr: " + i.ToString() }});
                 OpenLedger.Add(b1);
             }
+            
             MemoryStream stream1 = new MemoryStream();
             DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(BlockChain));
             ser.WriteObject(stream1, OpenLedger);
