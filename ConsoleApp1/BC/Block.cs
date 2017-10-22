@@ -104,49 +104,7 @@ namespace ConsoleApp1.BC
             }
             return hex;
         }
-        /*
-        public string GenerateHash()
-        {
-            string result = string.Empty;
-            byte[] chain1 = null;
-            SHA256Managed sha = new SHA256Managed();
-            object obj = this.transactions;
-            var bf = new BinaryFormatter();
-            using (var ms = new MemoryStream())
-            {
-                bf.Serialize(ms, obj);
-                chain1 = ms.ToArray();
-            }
-            List<byte> toEncode = Encoding.Unicode.GetBytes(string.Join("", chain1)).ToList();
 
-            byte[] chain2 = Encoding.UTF8.GetBytes(PreviousHash);            
-            toEncode.AddRange(chain2);
-            byte[] chain3 = Encoding.UTF8.GetBytes(Nonce.ToString());
-            toEncode.AddRange(chain3);
-            byte[] chain4 = Encoding.UTF8.GetBytes(ID.ToString());
-            toEncode.AddRange(chain4);
-            byte[] chain5 = Encoding.UTF8.GetBytes(Version.ToString());
-            toEncode.AddRange(chain5);
-            using (var myStream = new System.IO.MemoryStream())
-            {
-                using (var sw = new System.IO.StreamWriter(myStream))
-                {
-                    sw.Write(Convert.ToBase64String(toEncode.ToArray()));
-                }
-                using (var readonlyStream = new MemoryStream(myStream.ToArray(), writable: false))
-                {
-                    chain1 = sha.ComputeHash(readonlyStream);
-                }
-            }
-            string hex = string.Empty;
-            foreach (byte x in chain1)
-            {
-                hex += String.Format("{0:x2}", x);
-            }
-            result = hex;
-            return result;
-        }
-        */
         public byte[] GenerateHash(string toHash)
         {
             List<byte> toEncode = Encoding.UTF8.GetBytes(toHash).ToList();
@@ -179,26 +137,6 @@ namespace ConsoleApp1.BC
             return crypto;
         }
 
-            public byte[] GenerateHash(byte[] toHash)
-        {
-            List<byte> toEncode = toHash.ToList();
-            byte[] chain1 = null;
-            SHA256Managed sha = new SHA256Managed();
-
-            using (var myStream = new System.IO.MemoryStream())
-            {
-                using (var sw = new System.IO.StreamWriter(myStream))
-                {
-                    sw.Write(Convert.ToBase64String(toEncode.ToArray()));
-                }
-                using (var readonlyStream = new MemoryStream(myStream.ToArray(), writable: false))
-                {
-                    chain1 = sha.ComputeHash(readonlyStream);
-                }
-            }
-            return chain1;
-        }
-
         public byte[] GenerateHash2(byte[] toHash1, byte[] toHash2)
         {
             StringBuilder stringBuilder = new StringBuilder();
@@ -224,47 +162,6 @@ namespace ConsoleApp1.BC
                 }
             }
             return chain1;
-        }
-
-        public byte[] GenerateHash(byte[] toHash1, byte[] toHash2)
-        {
-            List<byte> toEncode = toHash1.ToList();
-            toEncode.AddRange(toHash2.ToList());
-            byte[] chain1 = null;
-            SHA256Managed sha = new SHA256Managed();
-
-            using (var myStream = new System.IO.MemoryStream())
-            {
-                using (var sw = new System.IO.StreamWriter(myStream))
-                {
-                    sw.Write(Convert.ToBase64String(toEncode.ToArray()));
-                }
-                using (var readonlyStream = new MemoryStream(myStream.ToArray(), writable: false))
-                {
-                    chain1 = sha.ComputeHash(readonlyStream);
-                }
-            }
-            return chain1;
-        }
-
-        public BlockData[] Datas
-        {
-            get
-            {
-                return transactions;
-            }
-        }
-    }
-
-    [Serializable]
-    public sealed class BlockData
-    {
-        public readonly DateTime Time =  DateTime.Now; // DateTime.MinValue; //
-        public string message { get; set; }
-
-        public override string ToString()
-        {
-            return  $"{message}";
         }
     }
 }
