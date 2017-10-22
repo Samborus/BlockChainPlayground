@@ -21,7 +21,7 @@ namespace ConsoleApp1
         public void Do()
         {
             double d = 0x0404cb * 2 * Math.Pow(8 * (0x1b - 3), 2);
-            
+            DateTime start = DateTime.Now;
             for (int i = 0; i < 10; i++)
             {
                 Block b1 = new Block(new BlockData[] { new BlockData() { message = "wiadomosc1 nr: " + i.ToString() },
@@ -41,7 +41,8 @@ namespace ConsoleApp1
             Console.WriteLine(sr.ReadToEnd());
             bool valed = OpenLedger.Validate();
             Console.WriteLine($"ledger is valid : { valed }");
-
+            DateTime end = DateTime.Now;
+            Console.WriteLine((end - start).TotalSeconds);
             Console.ReadKey();
             //return;
             var container = BootStrap.Components();

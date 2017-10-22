@@ -76,7 +76,7 @@ namespace ConsoleApp1.BC
             var x = 0x1d00ffff;
             Bits = 0x0404cb;
             double d1 = 0x00ffff;// * 2 * Math.Pow(2, 8 * (0x1d - 3));
-            double d3 = 0x0404cb;// * 2 * Math.Pow(2, 8 * (0x1d - 3));
+            double d3 = 0x0404cb* 2 * Math.Pow(2, 8 * (0x1d - 3));
             double dr = d1 / d3;
             decimal dec = CalculateDifficulty();
             decimal d5;
