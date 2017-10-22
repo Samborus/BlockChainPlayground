@@ -13,7 +13,7 @@ namespace ConsoleApp1.BC
 {
     public class Block
     {
-
+        public UInt32 version = 0x100000;
         public UInt64? ID { get; set; }
         BlockData[] datas { get; set; }
         string previousHash = String.Empty;
@@ -45,7 +45,7 @@ namespace ConsoleApp1.BC
                 temp = GenerateHash();
                 Nonce++;
             }
-            while (!temp.Substring(0, 2).Equals("00"));
+            while (!temp.Substring(0, 3).Equals("000"));
             Nonce--;
             Console.WriteLine($"Nonce: {Nonce}");
             Hash = temp;
@@ -79,6 +79,10 @@ namespace ConsoleApp1.BC
             toEncode.AddRange(chain2);
             byte[] chain3 = Encoding.UTF8.GetBytes(Nonce.ToString());
             toEncode.AddRange(chain3);
+            byte[] chain4 = Encoding.UTF8.GetBytes(ID.ToString());
+            toEncode.AddRange(chain4);
+            byte[] chain5 = Encoding.UTF8.GetBytes(version.ToString());
+            toEncode.AddRange(chain5);
             using (var myStream = new System.IO.MemoryStream())
             {
                 using (var sw = new System.IO.StreamWriter(myStream))

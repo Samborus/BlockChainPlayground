@@ -38,7 +38,7 @@ namespace ConsoleApp1.BC
         public bool Validate()
         {
             bool result = true;
-            string prev = "genesis", curr = "";
+            string prev = "genesis";
             for (UInt64 i = 0; (int)i < blocks.Count; i++)
             {
                 

@@ -24,6 +24,7 @@ namespace ConsoleApp1
                 OpenLedger.Add(b1);
             }
             bool valed = OpenLedger.Validate();
+            Console.WriteLine($"ledger is valid : { valed }");
             Console.ReadKey();
             //return;
             var container = BootStrap.Components();
