@@ -1,15 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ConsoleApp1.BC
 {
+    [DataContract]
     public sealed class BlockChain
     {
+        [DataMember]
         private List<Block> blocks = new List<Block>();
-        
+
+        [DataMember]
+        public Byte[] lastHash { get; set; }
         /// <summary>
         /// Add block usng chain rules
         /// </summary>
@@ -18,19 +23,17 @@ namespace ConsoleApp1.BC
         public string Add(Block candidateBlock)
         {
             Block lastBlock = getLastBlock;
-            string last = lastBlock?.Hash;
             UInt64? lastId = lastBlock?.ID;
-            if (string.IsNullOrEmpty(last))
-            {
-                last = "genesis";
-                
-            }
+            if (lastBlock == null)
+                candidateBlock.hashPrevBlock = new byte[32];
+            else
+                candidateBlock.hashPrevBlock = lastBlock.Hash;
+
             candidateBlock.SetNextID(lastId);
-            candidateBlock.PreviousHash = last;
-            candidateBlock.GenerateHashWithDiffuculty(0); // SetHash();
+            candidateBlock.ComputeMerkleHash();
+            candidateBlock.GenerateHashWithDiffuculty(); // SetHash();
             
             this.blocks.Add(candidateBlock);
-
             return "";
         }
 
@@ -38,18 +41,18 @@ namespace ConsoleApp1.BC
         public bool Validate()
         {
             bool result = true;
-            string prev = "genesis";
+            byte[] prev = new byte[32];
             for (UInt64 i = 0; (int)i < blocks.Count; i++)
             {
                 
                 Block b = blocks.Where(o => o.ID.HasValue && o.ID.Value == i).FirstOrDefault();
-                Console.WriteLine($"PrevHash: {b.PreviousHash}");
-                Console.WriteLine($"Hash: {b.Hash}");
-                if (prev != b.PreviousHash)
+                Console.WriteLine($"Block: [{i}] PrevHash: {b.hashMerkleRoot}");
+                Console.WriteLine($"Block: [{i}] Hash    : {b.Hash}");
+                if (!prev.SequenceEqual(b.hashPrevBlock))
                     return false;
                 prev = b.Hash;
-                string test = b.GenerateHash();
-                if (test != b.Hash)
+                byte[] test = b.GenerateHashWithDiffuculty(false);
+                if (!test.SequenceEqual(b.Hash))
                     return false;
             }
             return result;

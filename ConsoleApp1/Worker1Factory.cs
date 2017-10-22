@@ -6,7 +6,9 @@ using ConsoleApp1.Src;
 using RecExporter;
 using RecExporter.Code.Interfaces;
 using System;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Json;
 using System.Threading.Tasks;
 
 namespace ConsoleApp1
@@ -17,14 +19,26 @@ namespace ConsoleApp1
         static BlockChain OpenLedger = new BlockChain();
 
         public void Do()
-        {            
-            for(int i = 0; i < 50; i++)
+        {
+            for (int i = 0; i < 10; i++)
             {
-                Block b1 = new Block(new BlockData[] { new BlockData() { message = "wiadomosc nr: " + i.ToString() } });
+                Block b1 = new Block(new BlockData[] { new BlockData() { message = "wiadomosc1 nr: " + i.ToString() },
+                new BlockData() { message = "wiadomosc2 nr: " + i.ToString() },
+                new BlockData() { message = "wiadomosc3 nr: " + i.ToString() },
+                new BlockData() { message = "wiadomosc4 nr: " + i.ToString() },
+                new BlockData() { message = "wiadomosc5 nr: " + i.ToString() }});
                 OpenLedger.Add(b1);
             }
+            MemoryStream stream1 = new MemoryStream();
+            DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(BlockChain));
+            ser.WriteObject(stream1, OpenLedger);
+            stream1.Position = 0;
+            StreamReader sr = new StreamReader(stream1);
+            Console.Write("JSON form of Person object: ");
+            Console.WriteLine(sr.ReadToEnd());
             bool valed = OpenLedger.Validate();
             Console.WriteLine($"ledger is valid : { valed }");
+
             Console.ReadKey();
             //return;
             var container = BootStrap.Components();
