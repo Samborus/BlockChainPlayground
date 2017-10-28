@@ -20,9 +20,11 @@ namespace ConsoleApp1
 
         public void Do()
         {
+            //int log_2 = ((x >> 23) & 255) - 128;
+            //return;
             double d = 0x0404cb * 2 * Math.Pow(8 * (0x1b - 3), 2);
             DateTime start = DateTime.Now;
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 5; i++)
             {
                 Block b1 = new Block(new BlockData[] { new BlockData() { message = "wiadomosc1 nr: " + i.ToString() },
                 new BlockData() { message = "wiadomosc2 nr: " + i.ToString() },

@@ -34,7 +34,7 @@ namespace ConsoleApp1.BC
 
             candidateBlock.SetNextID(lastId);
             candidateBlock.ComputeMerkleHash();
-            candidateBlock.GenerateHashWithDiffuculty(); // SetHash();
+            candidateBlock.GenerateHashWithDiffuculty(diff: "00000"); // SetHash();
             
             this.blocks.Add(candidateBlock);
             return "";
